@@ -1,36 +1,92 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Social Tracker
 
-## Getting Started
+Social Tracker es una aplicación web construida con Next.js que permite a los usuarios buscar perfiles de redes sociales (YouTube, Instagram, TikTok, X/Twitter) para un nombre de usuario específico y ver la información agregada. También permite a los usuarios "suscribirse" a perfiles para un acceso rápido, guardando estas suscripciones en el almacenamiento local del navegador.
 
-First, run the development server:
+## Características Principales
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+*   **Búsqueda Multiplataforma:** Busca un nombre de usuario en YouTube, Instagram, TikTok y X simultáneamente.
+*   **Resultados Agregados:** Muestra información básica del perfil y enlaces directos encontrados en cada plataforma.
+*   **Sistema de Suscripciones:** Guarda tus usuarios favoritos para buscarlos rápidamente con un solo clic.
+*   **Almacenamiento Local:** Las suscripciones se guardan directamente en tu navegador usando `localStorage`.
+*   **Interfaz Moderna:** Construida con Tailwind CSS y Shadcn UI para una experiencia de usuario limpia y responsiva.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Tecnologías Utilizadas
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+*   **Framework:** [Next.js](https://nextjs.org/) (React)
+*   **Lenguaje:** [TypeScript](https://www.typescriptlang.org/)
+*   **Estilos:** [Tailwind CSS](https://tailwindcss.com/)
+*   **Componentes UI:** [Shadcn UI](https://ui.shadcn.com/)
+*   **Scraping:** [Apify SDK](https://apify.com/) (a través de una API interna)
+*   **Notificaciones:** [Sonner](https://sonner.emilkowal.ski/)
+*   **Gestor de Paquetes/Runtime:** [Bun](https://bun.sh/) (o npm/yarn/pnpm)
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Configuración y Puesta en Marcha
 
-## Learn More
+1.  **Clonar el Repositorio:**
+    ```bash
+    git clone <url-del-repositorio>
+    cd social-tracker
+    ```
 
-To learn more about Next.js, take a look at the following resources:
+2.  **Instalar Dependencias:**
+    Se recomienda usar Bun (como se indica en el `package.json`), pero puedes usar otros gestores.
+    ```bash
+    bun install
+    ```
+    *O alternativamente:*
+    ```bash
+    npm install
+    # o
+    yarn install
+    # o
+    pnpm install
+    ```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+3.  **Variables de Entorno:**
+    Crea un archivo `.env.local` en la raíz del proyecto y añade tu token de API de Apify:
+    ```plaintext:.env.local
+    APIFY_API_TOKEN="tu_token_de_apify_aqui"
+    ```
+    Puedes obtener un token registrándote en [Apify](https://apify.com/).
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+4.  **Ejecutar el Servidor de Desarrollo:**
+    ```bash
+    bun dev
+    ```
+    *O alternativamente:*
+    ```bash
+    npm run dev
+    # o
+    yarn dev
+    # o
+    pnpm dev
+    ```
 
-## Deploy on Vercel
+5.  **Abrir la Aplicación:**
+    Abre [http://localhost:3000](http://localhost:3000) en tu navegador.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## ¿Cómo Funciona?
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+1.  **Búsqueda:** El usuario introduce un nombre de usuario en la barra de búsqueda y presiona "Buscar" o hace clic en una suscripción guardada.
+2.  **Llamada a la API:** La interfaz de usuario realiza una solicitud POST al endpoint `/api/scrape-all` del backend de Next.js, enviando el nombre de usuario.
+3.  **Scraping:** El endpoint de la API utiliza el cliente de Apify (`src/app/lib/scrapers.ts`) para ejecutar actores preconfigurados (scrapers) para cada plataforma social (YouTube, Instagram, TikTok, X).
+4.  **Agregación de Resultados:** La API espera a que todos los scrapers finalicen (usando `Promise.allSettled`) y recopila los resultados (o errores) de cada plataforma.
+5.  **Respuesta:** La API devuelve un array de objetos, cada uno representando los resultados (o error) para una plataforma específica.
+6.  **Visualización:** La interfaz recibe los datos y los muestra en tarjetas separadas por plataforma. También actualiza la tarjeta de "Enlaces directos".
+7.  **Suscripciones:**
+    *   Al hacer clic en "Suscribirse", se guarda el nombre de usuario actual, un avatar (si se encuentra) y la plataforma principal en `localStorage`.
+    *   La lista de suscripciones se muestra en la barra lateral y en la pantalla de bienvenida.
+    *   Al hacer clic en una suscripción, se llama a la función `handleSubmit` directamente con ese nombre de usuario, iniciando una nueva búsqueda.
+
+## Endpoint de API
+
+*   `POST /api/scrape-all`:
+    *   **Body (JSON):** `{ "username": "nombre_a_buscar" }`
+    *   **Respuesta Exitosa (JSON):** `[{ platform: "...", items: [...], error: null }, ...]`
+    *   **Respuesta de Error (JSON):** `{ "error": "mensaje_de_error" }`
+
+## Despliegue
+
+La forma más sencilla de desplegar esta aplicación Next.js es utilizando la [Plataforma Vercel](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) de los creadores de Next.js.
+
+Consulta la [documentación de despliegue de Next.js](https://nextjs.org/docs/app/building-your-application/deploying) para más detalles. Asegúrate de configurar la variable de entorno `APIFY_API_TOKEN` en la configuración de tu proyecto en Vercel.
