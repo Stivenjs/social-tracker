@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/card";
 import { formatDistanceToNow } from "date-fns";
 import { es } from "date-fns/locale";
-import { ExternalLink, Play, Info } from "lucide-react"; 
+import { ExternalLink, Play, Info } from "lucide-react";
 import Image from "next/image";
 
 interface TiktokResultProps {
@@ -21,6 +21,7 @@ interface TiktokResultProps {
       avatar?: string;
       nickName?: string;
       name?: string;
+      verified?: boolean;
     };
     createTimeISO?: string;
     text?: string;
@@ -38,56 +39,49 @@ interface TiktokResultProps {
 
 export const TiktokResult = ({ data }: TiktokResultProps) => {
   // Check if data is missing
-   if (!data || data.error) {
-     return (
-       <Card className="overflow-hidden border-zinc-800 bg-zinc-900 shadow-lg">
-         <CardHeader className="flex flex-row items-center justify-between space-y-0 p-4 pb-0">
-           <div className="flex items-center gap-3">
-             <Avatar className="h-10 w-10 border-2 border-zinc-700 p-0.5">
-               {/* Placeholder Avatar */}
-               <AvatarFallback className="bg-zinc-800 text-zinc-500">
-                 ?
-               </AvatarFallback>
-             </Avatar>
-             <div>
-               <p className="font-semibold text-zinc-500">
-                 Usuario Desconocido
-               </p>
-               <p className="text-xs text-zinc-600">TikTok</p>
-             </div>
-           </div>
-           <Badge className="bg-gradient-to-r from-pink-500 to-purple-600 text-white">
-             <Image
-               src="/tiktok.svg"
-               alt="TikTok logo"
-               width={24}
-               height={24}
-             />
-             TikTok
-           </Badge>
-         </CardHeader>
-         <CardContent className="p-4 flex items-center justify-center text-center min-h-[150px]">
-           <div className="flex flex-col items-center gap-2 text-zinc-500">
-             <Info className="h-8 w-8" />
-             <p className="text-sm">
-               No se encontró información para este usuario en TikTok.
-             </p>
-           </div>
-         </CardContent>
-         <CardFooter className="border-t border-zinc-800 bg-zinc-900/50 p-4">
-           {/* Optionally disable or hide the button */}
-           <Button
-             variant="outline"
-             className="w-full gap-2 border-zinc-700 bg-transparent text-zinc-600 cursor-not-allowed"
-             disabled
-           >
-             <ExternalLink className="h-4 w-4" />
-             Ver en TikTok
-           </Button>
-         </CardFooter>
-       </Card>
-     );
-   }
+  if (!data || data.error || !data.authorMeta?.verified || "") {
+    return (
+      <Card className="overflow-hidden border-zinc-800 bg-zinc-900 shadow-lg">
+        <CardHeader className="flex flex-row items-center justify-between space-y-0 p-4 pb-0">
+          <div className="flex items-center gap-3">
+            <Avatar className="h-10 w-10 border-2 border-zinc-700 p-0.5">
+              {/* Placeholder Avatar */}
+              <AvatarFallback className="bg-zinc-800 text-zinc-500">
+                ?
+              </AvatarFallback>
+            </Avatar>
+            <div>
+              <p className="font-semibold text-zinc-500">Usuario Desconocido</p>
+              <p className="text-xs text-zinc-600">TikTok</p>
+            </div>
+          </div>
+          <Badge className="bg-gradient-to-r from-pink-500 to-purple-600 text-white">
+            <Image src="/tiktok.svg" alt="TikTok logo" width={24} height={24} />
+            TikTok
+          </Badge>
+        </CardHeader>
+        <CardContent className="p-4 flex items-center justify-center text-center min-h-[150px]">
+          <div className="flex flex-col items-center gap-2 text-zinc-500">
+            <Info className="h-8 w-8" />
+            <p className="text-sm">
+              No se encontró un perfil verificado para este usuario en TikTok.
+            </p>
+          </div>
+        </CardContent>
+        <CardFooter className="border-t border-zinc-800 bg-zinc-900/50 p-4">
+          {/* Optionally disable or hide the button */}
+          <Button
+            variant="outline"
+            className="w-full gap-2 border-zinc-700 bg-transparent text-zinc-600 cursor-not-allowed"
+            disabled
+          >
+            <ExternalLink className="h-4 w-4" />
+            Ver en TikTok
+          </Button>
+        </CardFooter>
+      </Card>
+    );
+  }
 
   // Original component rendering when data is present
   const formattedDate = data.createTimeISO
@@ -109,9 +103,13 @@ export const TiktokResult = ({ data }: TiktokResultProps) => {
           </Avatar>
           <div>
             <p className="font-semibold text-white">
-              {data.authorMeta?.nickName || "TikTok User"} {/* Added fallback */}
+              {data.authorMeta?.nickName || "TikTok User"}{" "}
+              {/* Added fallback */}
             </p>
-            <p className="text-xs text-zinc-400">@{data.authorMeta?.name || "username"}</p> {/* Added fallback */}
+            <p className="text-xs text-zinc-400">
+              @{data.authorMeta?.name || "username"}
+            </p>{" "}
+            {/* Added fallback */}
           </div>
         </div>
         <Badge className="bg-gradient-to-r from-pink-500 to-purple-600 text-white">
@@ -144,7 +142,13 @@ export const TiktokResult = ({ data }: TiktokResultProps) => {
             ) : (
               <div className="flex h-full items-center justify-center">
                 {/* Simplified TikTok SVG or use an icon */}
-                <Image src="/tiktok.svg" alt="TikTok placeholder" width={64} height={64} className="text-zinc-600 opacity-50" />
+                <Image
+                  src="/tiktok.svg"
+                  alt="TikTok placeholder"
+                  width={64}
+                  height={64}
+                  className="text-zinc-600 opacity-50"
+                />
               </div>
             )}
           </div>
@@ -155,10 +159,12 @@ export const TiktokResult = ({ data }: TiktokResultProps) => {
                 {data.text
                   ? data.text.substring(0, 60) +
                     (data.text.length > 60 ? "..." : "")
-                  : "Video de TikTok"} {/* Fallback title */}
+                  : "Video de TikTok"}{" "}
+                {/* Fallback title */}
               </h3>
               <div className="flex flex-wrap items-center gap-2 text-xs text-zinc-400 mb-2">
-                <span>{data.authorMeta?.nickName || "Usuario"}</span> {/* Fallback */}
+                <span>{data.authorMeta?.nickName || "Usuario"}</span>{" "}
+                {/* Fallback */}
                 <span>•</span>
                 <span>
                   {data.playCount?.toLocaleString() || 0} visualizaciones
@@ -195,7 +201,13 @@ export const TiktokResult = ({ data }: TiktokResultProps) => {
           variant="outline"
           className="w-full gap-2 border-pink-500/50 bg-transparent text-pink-500 hover:bg-pink-500/10 hover:text-pink-400"
         >
-          <a href={data.webVideoUrl || '#'} target="_blank" rel="noopener noreferrer"> {/* Fallback href */}
+          <a
+            href={data.webVideoUrl || "#"}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            {" "}
+            {/* Fallback href */}
             <ExternalLink className="h-4 w-4" />
             Ver en TikTok
           </a>

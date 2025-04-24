@@ -11,7 +11,13 @@ import {
 } from "@/components/ui/card";
 import { formatDistanceToNow } from "date-fns";
 import { es } from "date-fns/locale";
-import { ExternalLink, Heart, Instagram, MessageSquare, Info } from "lucide-react"; 
+import {
+  ExternalLink,
+  Heart,
+  Instagram,
+  MessageSquare,
+  Info,
+} from "lucide-react";
 import Image from "next/image";
 
 interface InstagramResultProps {
@@ -19,7 +25,11 @@ interface InstagramResultProps {
   data?: {
     user?: {
       profile_pic_url?: string;
+      is_verified?: boolean;
     };
+    coauthorProducers?: {
+      is_verified?: boolean;
+    }[];
     ownerUsername?: string;
     displayUrl?: string;
     caption?: string;
@@ -36,51 +46,50 @@ interface InstagramResultProps {
 
 export const InstagramResult = ({ data }: InstagramResultProps) => {
   // Check if data is missing
-   if (!data || data.error) {
-     return (
-       <Card className="overflow-hidden border-zinc-800 bg-zinc-900 shadow-lg">
-         <CardHeader className="flex flex-row items-center justify-between space-y-0 p-4 pb-0">
-           <div className="flex items-center gap-3">
-             <Avatar className="h-10 w-10 border-2 border-zinc-700 p-0.5">
-               {/* Placeholder Avatar */}
-               <AvatarFallback className="bg-zinc-800 text-zinc-500">
-                 ?
-               </AvatarFallback>
-             </Avatar>
-             <div>
-               <p className="font-semibold text-zinc-500">
-                 Usuario Desconocido
-               </p>
-               <p className="text-xs text-zinc-600">Instagram</p>
-             </div>
-           </div>
-           <Badge className="bg-gradient-to-r from-purple-500 to-pink-500 text-white">
-             <Instagram className="mr-1 h-3 w-3" />
-             Instagram
-           </Badge>
-         </CardHeader>
-         <CardContent className="p-4 flex items-center justify-center text-center min-h-[150px]">
-           <div className="flex flex-col items-center gap-2 text-zinc-500">
-             <Info className="h-8 w-8" />
-             <p className="text-sm">
-               No se encontró información para este usuario en Instagram.
-             </p>
-           </div>
-         </CardContent>
-         <CardFooter className="border-t border-zinc-800 bg-zinc-900/50 p-4">
-           {/* Optionally disable or hide the button */}
-           <Button
-             variant="outline"
-             className="w-full gap-2 border-zinc-700 bg-transparent text-zinc-600 cursor-not-allowed"
-             disabled
-           >
-             <ExternalLink className="h-4 w-4" />
-             Ver en Instagram
-           </Button>
-         </CardFooter>
-       </Card>
-     );
-   }
+  if (!data || data.error || !data.coauthorProducers?.[0]?.is_verified || "") {
+    return (
+      <Card className="overflow-hidden border-zinc-800 bg-zinc-900 shadow-lg">
+        <CardHeader className="flex flex-row items-center justify-between space-y-0 p-4 pb-0">
+          <div className="flex items-center gap-3">
+            <Avatar className="h-10 w-10 border-2 border-zinc-700 p-0.5">
+              {/* Placeholder Avatar */}
+              <AvatarFallback className="bg-zinc-800 text-zinc-500">
+                ?
+              </AvatarFallback>
+            </Avatar>
+            <div>
+              <p className="font-semibold text-zinc-500">Usuario Desconocido</p>
+              <p className="text-xs text-zinc-600">Instagram</p>
+            </div>
+          </div>
+          <Badge className="bg-gradient-to-r from-purple-500 to-pink-500 text-white">
+            <Instagram className="mr-1 h-3 w-3" />
+            Instagram
+          </Badge>
+        </CardHeader>
+        <CardContent className="p-4 flex items-center justify-center text-center min-h-[150px]">
+          <div className="flex flex-col items-center gap-2 text-zinc-500">
+            <Info className="h-8 w-8" />
+            <p className="text-sm">
+              No se encontró un perfil verificado para este usuario en
+              Instagram.
+            </p>
+          </div>
+        </CardContent>
+        <CardFooter className="border-t border-zinc-800 bg-zinc-900/50 p-4">
+          {/* Optionally disable or hide the button */}
+          <Button
+            variant="outline"
+            className="w-full gap-2 border-zinc-700 bg-transparent text-zinc-600 cursor-not-allowed"
+            disabled
+          >
+            <ExternalLink className="h-4 w-4" />
+            Ver en Instagram
+          </Button>
+        </CardFooter>
+      </Card>
+    );
+  }
 
   // Original component rendering when data is present
   return (
@@ -175,7 +184,12 @@ export const InstagramResult = ({ data }: InstagramResultProps) => {
         >
           <a
             // Ensure fallback URL is reasonable even if shortCode is missing
-            href={data.url || (data.shortCode ? `https://www.instagram.com/p/${data.shortCode}` : '#')}
+            href={
+              data.url ||
+              (data.shortCode
+                ? `https://www.instagram.com/p/${data.shortCode}`
+                : "#")
+            }
             target="_blank"
             rel="noopener noreferrer"
           >
