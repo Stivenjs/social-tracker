@@ -1,6 +1,6 @@
 # Social Tracker
 
-Social Tracker es una aplicación web construida con Next.js que permite a los usuarios buscar perfiles de redes sociales (YouTube, Instagram, TikTok, X/Twitter) para un nombre de usuario específico y ver la información agregada. También permite a los usuarios "suscribirse" a perfiles para un acceso rápido, guardando estas suscripciones en el almacenamiento local del navegador.
+Social Tracker es una aplicación web construida con Next.js que permite a los usuarios buscar perfiles de redes sociales (YouTube, Instagram, TikTok) para un nombre de usuario específico y ver la información agregada. También permite a los usuarios "suscribirse" a perfiles para un acceso rápido, guardando estas suscripciones en el almacenamiento local del navegador.
 
 ## Características Principales
 
