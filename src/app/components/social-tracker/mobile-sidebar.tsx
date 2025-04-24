@@ -71,7 +71,7 @@ export function MobileSidebar({
                             src={sub.avatar || "/placeholder.svg"}
                             alt={sub.name}
                           />
-                          <AvatarFallback>
+                          <AvatarFallback className="text-black">
                             {sub.name.charAt(0).toUpperCase()}
                           </AvatarFallback>
                         </Avatar>
