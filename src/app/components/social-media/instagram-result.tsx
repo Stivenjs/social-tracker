@@ -25,11 +25,7 @@ interface InstagramResultProps {
   data?: {
     user?: {
       profile_pic_url?: string;
-      is_verified?: boolean;
     };
-    coauthorProducers?: {
-      is_verified?: boolean;
-    }[];
     ownerUsername?: string;
     displayUrl?: string;
     caption?: string;
@@ -46,7 +42,7 @@ interface InstagramResultProps {
 
 export const InstagramResult = ({ data }: InstagramResultProps) => {
   // Check if data is missing
-  if (!data || data.error || !data.coauthorProducers?.[0]?.is_verified || "") {
+  if (!data || data.error) {
     return (
       <Card className="overflow-hidden border-zinc-800 bg-zinc-900 shadow-lg">
         <CardHeader className="flex flex-row items-center justify-between space-y-0 p-4 pb-0">

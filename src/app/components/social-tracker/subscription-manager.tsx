@@ -53,7 +53,7 @@ export function useSubscriptionManager(username: string, results: any[]) {
 
     // Prevent duplicates
     if (isSubscribed) {
-      toast.info(`You are already subscribed to ${username}`);
+      toast.info(`Ya estás suscrito a ${username}`);
       return;
     }
 
@@ -101,7 +101,7 @@ export function useSubscriptionManager(username: string, results: any[]) {
     };
 
     setSubscriptions((prev) => [...prev, newSubscription]);
-    toast.success(`Subscribed to ${username}`);
+    toast.success(`Suscrito a ${username}`);
   };
 
   // Function to handle unsubscribing
@@ -110,7 +110,7 @@ export function useSubscriptionManager(username: string, results: any[]) {
     setSubscriptions((prev) =>
       prev.filter((sub) => sub.name.toLowerCase() !== username.toLowerCase())
     );
-    toast.success(`Unsubscribed from ${username}`);
+    toast.success(`Suscribir a ${username}`);
   };
 
   return {

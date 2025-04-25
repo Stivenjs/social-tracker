@@ -70,7 +70,7 @@ export function SocialTracker({
             {!results.length && !loading && !error && <WelcomeScreen />}
 
             {/* Loading indicator */}
-            {loading && <LoadingScreen username={username} />}
+            {loading && <LoadingScreen />}
 
             {/* Scraping Results */}
             {results.length > 0 && (
