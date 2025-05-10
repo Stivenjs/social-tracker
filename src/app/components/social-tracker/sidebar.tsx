@@ -6,14 +6,19 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Users } from "lucide-react";
 import type { Subscription } from "@/app/components/social-tracker/types";
 import { renderPlatformIcon } from "@/app/components/social-tracker/platform-icons";
+import { Separator } from "@/components/ui/separator";
 
 interface SidebarProps {
   subscriptions: Subscription[];
-  loading: boolean; 
+  loading: boolean;
   searchSubscription: (name: string) => void;
 }
 
-export function Sidebar({ subscriptions, loading, searchSubscription }: SidebarProps) { 
+export function Sidebar({
+  subscriptions,
+  loading,
+  searchSubscription,
+}: SidebarProps) {
   return (
     <div className="hidden md:flex w-64 flex-col bg-zinc-900 border-r border-zinc-800">
       <div className="p-4">
@@ -67,6 +72,35 @@ export function Sidebar({ subscriptions, loading, searchSubscription }: SidebarP
                   Sin suscripciones
                 </p>
               )}
+            </div>
+
+            {/* Un solo separador seguido de las categorías */}
+            <div className="mt-6 px-2">
+              <Separator className="my-4" />
+
+              <div className="space-y-3">
+                <p className="text-sm font-medium text-zinc-400 px-3 py-1">
+                  Viral
+                </p>
+                <p className="text-sm font-medium text-zinc-400 px-3 py-1">
+                  Música
+                </p>
+                <p className="text-sm font-medium text-zinc-400 px-3 py-1">
+                  Directo
+                </p>
+                <p className="text-sm font-medium text-zinc-400 px-3 py-1">
+                  Video Juegos
+                </p>
+                <p className="text-sm font-medium text-zinc-400 px-3 py-1">
+                  Actualidad
+                </p>
+                <p className="text-sm font-medium text-zinc-400 px-3 py-1">
+                  Deporte
+                </p>
+                <p className="text-sm font-medium text-zinc-400 px-3 py-1">
+                  Educación
+                </p>
+              </div>
             </div>
           </ScrollArea>
         </div>

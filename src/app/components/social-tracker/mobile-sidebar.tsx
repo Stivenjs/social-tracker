@@ -13,6 +13,7 @@ import {
 } from "@/components/ui/sheet";
 import type { Subscription } from "@/app/components/social-tracker/types";
 import { renderPlatformIcon } from "@/app/components/social-tracker/platform-icons";
+import { Separator } from "@/components/ui/separator";
 
 interface MobileSidebarProps {
   open: boolean;
@@ -90,6 +91,34 @@ export function MobileSidebar({
                     Sin suscripciones
                   </p>
                 )}
+              </div>
+
+              <div className="mt-6 px-2 text-white">
+                <Separator className="my-4" />
+
+                <div className="space-y-3">
+                  <p className="text-sm font-medium text-zinc-400 px-3 py-1">
+                    Viral
+                  </p>
+                  <p className="text-sm font-medium text-zinc-400 px-3 py-1">
+                    Música
+                  </p>
+                  <p className="text-sm font-medium text-zinc-400 px-3 py-1">
+                    Directo
+                  </p>
+                  <p className="text-sm font-medium text-zinc-400 px-3 py-1">
+                    Video Juegos
+                  </p>
+                  <p className="text-sm font-medium text-zinc-400 px-3 py-1">
+                    Actualidad
+                  </p>
+                  <p className="text-sm font-medium text-zinc-400 px-3 py-1">
+                    Deporte
+                  </p>
+                  <p className="text-sm font-medium text-zinc-400 px-3 py-1">
+                    Educación
+                  </p>
+                </div>
               </div>
             </ScrollArea>
           </div>
