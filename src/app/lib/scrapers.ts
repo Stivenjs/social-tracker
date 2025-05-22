@@ -1,7 +1,7 @@
 import { ApifyClient } from "apify-client";
 
 const client = new ApifyClient({
-  token: process.env.APIFY_API_TOKEN || "",
+  token: "apify_api_eYKue0ZMbl6Pjkyjg4qOQFE3Ee6dt926cHSz",
 });
 
 export async function runAllScrapers(username: string) {
