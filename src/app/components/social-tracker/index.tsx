@@ -20,9 +20,12 @@ export function SocialTracker({
   error,
   handleSubmit,
 }: SocialTrackerProps) {
+  // New state for the username that was actually searched
+  const [searchedUsername, setSearchedUsername] = useState("");
+
   // Use the subscription manager hook
   const { subscriptions, isSubscribed, handleSubscribe, handleUnsubscribe } =
-    useSubscriptionManager(username, results);
+    useSubscriptionManager(searchedUsername, results);
 
   // State for mobile sidebar
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -32,7 +35,15 @@ export function SocialTracker({
     setUsername(subscriptionName); // Update the input field visually
     // Simulate form submission and pass the name directly
     const fakeEvent = { preventDefault: () => {} } as React.FormEvent;
+    setSearchedUsername(subscriptionName); // Update searched username
     handleSubmit(fakeEvent, subscriptionName);
+  };
+
+  // Modify handleSubmit to update searchedUsername
+  const originalHandleSubmit = handleSubmit;
+  const newHandleSubmit = async (e: React.FormEvent, nameOverride?: string) => {
+    setSearchedUsername(nameOverride || username); // Update searched username before search
+    await originalHandleSubmit(e, nameOverride);
   };
 
   return (
@@ -58,7 +69,7 @@ export function SocialTracker({
         <SearchHeader
           username={username}
           setUsername={setUsername}
-          handleSubmit={handleSubmit}
+          handleSubmit={newHandleSubmit}
           loading={loading}
           onOpenSidebar={() => setSidebarOpen(true)}
         />
@@ -81,10 +92,15 @@ export function SocialTracker({
                   isSubscribed={isSubscribed}
                   handleSubscribe={handleSubscribe}
                   handleUnsubscribe={handleUnsubscribe}
+                  searchedUsername={searchedUsername}
                 />
 
                 {/* Social Media Links Card */}
-                <LinksCard username={username} results={results} />
+                <LinksCard
+                  username={username}
+                  results={results}
+                  searchedUsername={searchedUsername}
+                />
               </div>
             )}
           </div>

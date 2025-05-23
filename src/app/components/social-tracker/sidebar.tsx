@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Users } from "lucide-react";
+import Image from "next/image";
 import type { Subscription } from "@/app/components/social-tracker/types";
 import { renderPlatformIcon } from "@/app/components/social-tracker/platform-icons";
 import { Separator } from "@/components/ui/separator";
@@ -22,7 +23,9 @@ export function Sidebar({
   return (
     <div className="hidden md:flex w-64 flex-col bg-zinc-900 border-r border-zinc-800">
       <div className="p-4">
-        <h1 className="text-xl font-bold mb-6">Social Tracker</h1>
+        <h1 className="text-xl font-bold mb-6">
+          <Image src="/lomu@4x.png" alt="lomu-logo" width={100} height={100}/>
+        </h1>
 
         <div className="space-y-1 mb-8">
           <Button variant="ghost" className="w-full justify-start" size="lg">

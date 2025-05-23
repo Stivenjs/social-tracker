@@ -12,22 +12,32 @@ import { renderPlatformIcon } from "@/app/components/social-tracker/platform-ico
 interface LinksCardProps {
   username: string;
   results: any[];
+  searchedUsername: string;
 }
 
-export function LinksCard({ username, results }: LinksCardProps) {
+export function LinksCard({
+  username,
+  results,
+  searchedUsername,
+}: LinksCardProps) {
   return (
     <Card className="bg-zinc-900 border-zinc-800 text-white w-full lg:w-72 h-fit">
       <CardHeader className="pb-2">
         <CardTitle className="text-lg">Enlaces directos</CardTitle>
         <CardDescription className="text-gray-300">
-          Perfiles de {username}
+          Perfiles de {searchedUsername}
         </CardDescription>
       </CardHeader>
       <CardContent>
         <div className="space-y-3">
           {results.map((result, index) => {
             // Skip if there's an error or no items or the first item itself indicates an error (like Instagram not_found)
-            if (result.error || !result.items || result.items.length === 0 || result.items[0]?.error) {
+            if (
+              result.error ||
+              !result.items ||
+              result.items.length === 0 ||
+              result.items[0]?.error
+            ) {
               return null;
             }
 
@@ -43,14 +53,23 @@ export function LinksCard({ username, results }: LinksCardProps) {
                 profileName = firstItem?.channelName || username || "YouTube";
                 break;
               case "instagram":
-                 // Use inputUrl if available, otherwise construct from ownerUsername
-                 profileUrl = firstItem?.inputUrl || (firstItem?.ownerUsername ? `https://www.instagram.com/${firstItem.ownerUsername}/` : '');
-                 profileName = firstItem?.ownerUsername || username || "Instagram";
+                // Use inputUrl if available, otherwise construct from ownerUsername
+                profileUrl =
+                  firstItem?.inputUrl ||
+                  (firstItem?.ownerUsername
+                    ? `https://www.instagram.com/${firstItem.ownerUsername}/`
+                    : "");
+                profileName =
+                  firstItem?.ownerUsername || username || "Instagram";
                 break;
               case "tiktok":
                 // Safely access authorMeta and its properties
                 const authorMeta = firstItem?.authorMeta;
-                profileUrl = authorMeta?.profileUrl || (authorMeta?.name ? `https://www.tiktok.com/@${authorMeta.name}` : ''); // Construct URL if profileUrl missing but name exists
+                profileUrl =
+                  authorMeta?.profileUrl ||
+                  (authorMeta?.name
+                    ? `https://www.tiktok.com/@${authorMeta.name}`
+                    : ""); // Construct URL if profileUrl missing but name exists
                 profileName = authorMeta?.name || username || "TikTok";
                 break;
             }

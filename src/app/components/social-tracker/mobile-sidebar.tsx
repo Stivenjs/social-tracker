@@ -14,6 +14,7 @@ import {
 import type { Subscription } from "@/app/components/social-tracker/types";
 import { renderPlatformIcon } from "@/app/components/social-tracker/platform-icons";
 import { Separator } from "@/components/ui/separator";
+import Image from "next/image";
 
 interface MobileSidebarProps {
   open: boolean;
@@ -37,7 +38,12 @@ export function MobileSidebar({
         <SheetHeader className="p-4 text-left border-b border-zinc-800">
           <div className="flex items-center justify-between">
             <SheetTitle className="text-xl font-bold text-white">
-              Social Tracker
+              <Image
+                src="/lomu@4x.png"
+                alt="lomu-logo"
+                width={100}
+                height={100}
+              />
             </SheetTitle>
           </div>
         </SheetHeader>

@@ -1,17 +1,11 @@
 "use client";
 
-import { Instagram, Twitter, Youtube } from "lucide-react";
+import { Instagram, Youtube } from "lucide-react";
 import Image from "next/image";
 import type { Platform } from "@/app/components/social-tracker/types";
 
 export function renderPlatformIcon(platform: Platform | string) {
   switch (platform) {
-    case "x":
-      return (
-        <div className="rounded-full bg-black p-2">
-          <Twitter className="h-5 w-5" />
-        </div>
-      );
     case "youtube":
       return (
         <div className="rounded-full bg-red-600 p-2">

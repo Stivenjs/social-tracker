@@ -18,6 +18,7 @@ interface ResultsCardProps {
   isSubscribed: boolean;
   handleSubscribe: () => void;
   handleUnsubscribe: () => void;
+  searchedUsername: string;
 }
 
 export function ResultsCard({
@@ -26,28 +27,28 @@ export function ResultsCard({
   isSubscribed,
   handleSubscribe,
   handleUnsubscribe,
+  searchedUsername,
 }: ResultsCardProps) {
   return (
     <Card className="bg-zinc-900 border-zinc-800 text-white flex-1">
       {/* Add Subscribe button to Card Header */}
       <CardHeader className="flex flex-row items-start justify-between gap-4">
         <div>
-          <CardTitle>Resultados de búsqueda para: {username}</CardTitle>
+          <CardTitle>Resultados de búsqueda para: {searchedUsername}</CardTitle>
           <CardDescription className="text-gray-300 mt-2">
             Datos encontrados en diferentes plataformas
           </CardDescription>
         </div>
         {/* Subscribe/Unsubscribe Button */}
         <Button
-          variant="outline"
           size="sm"
           className={`flex-shrink-0 ${
             isSubscribed
-              ? "border-red-500/50 text-red-400 hover:bg-red-500/10 hover:text-red-300"
-              : "border-green-500/50 text-green-400 hover:bg-green-500/10 hover:text-green-300"
+              ? "bg-[#d60b52] border-[#d60b52] text-white hover:bg-[#d60b52] hover:text-white cursor-pointer"
+              : "bg-[#d60b52] border-[#d60b52] text-white hover:bg-[#d60b52] hover:text-white cursor-pointer"
           }`}
           onClick={isSubscribed ? handleUnsubscribe : handleSubscribe}
-          disabled={!username} // Disable if no username is searched
+          disabled={!searchedUsername} // Disable if no search has been performed
         >
           {isSubscribed ? (
             <>
