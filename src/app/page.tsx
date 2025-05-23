@@ -50,13 +50,16 @@ export default function Home() {
 
     try {
       // Llamada a la API de scraping
-      const response = await fetch("/api/scrape-all", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ username: userToSearch }),
-      });
+      const response = await fetch(
+        "https://fibt3myoogqtevzzs3g5rm3gpe0wdfwt.lambda-url.us-east-2.on.aws",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",   
+          },
+          body: JSON.stringify({ username: userToSearch }),
+        }
+      );
 
       if (!response.ok) {
         // Manejo de errores de la respuesta HTTP
