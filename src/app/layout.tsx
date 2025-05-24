@@ -41,6 +41,14 @@ export default function RootLayout({
             },
           }}
         />
+        <div
+          className="fixed bottom-5 right-10 p-4 text-3xl text-white border-3 
+        "
+        >
+          <p>Daniel Lopez</p>
+          <p>Jhon Muñoz</p>
+          <p>Sebastián Reyes</p>
+        </div>
       </body>
     </html>
   );

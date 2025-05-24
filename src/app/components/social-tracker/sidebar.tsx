@@ -21,10 +21,10 @@ export function Sidebar({
   searchSubscription,
 }: SidebarProps) {
   return (
-    <div className="hidden md:flex w-64 flex-col bg-zinc-900 border-r border-zinc-800">
+    <div className="hidden md:flex w-64 flex-col bg-zinc-900 border-r  border-pink-500 ">
       <div className="p-4">
         <h1 className="text-xl font-bold mb-6">
-          <Image src="/lomu@4x.png" alt="lomu-logo" width={100} height={100}/>
+          <Image src="/lomu@4x.png" alt="lomu-logo" width={100} height={100} />
         </h1>
 
         <div className="space-y-1 mb-8">

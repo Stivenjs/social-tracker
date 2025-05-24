@@ -12,7 +12,7 @@ export function WelcomeScreen() {
       <h2 className="text-2xl font-bold mb-3">
         Bienvenido a LoMu: Social Tracker
       </h2>
-      <p className="text-zinc-400 max-w-md mb-8">
+      <p className="text-white max-w-md mb-8">
         Busca un nombre de usuario para encontrar sus perfiles y contenido en
         diferentes plataformas sociales como TikTok, Instagram, YouTube.
       </p>

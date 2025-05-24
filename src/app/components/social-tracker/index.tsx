@@ -47,7 +47,7 @@ export function SocialTracker({
   };
 
   return (
-    <div className="flex h-screen bg-zinc-950 text-white">
+    <div className="flex h-screen bg-zinc-950 text-white relative border-3 border-pink-500">
       {/* Desktop Sidebar */}
       <Sidebar
         subscriptions={subscriptions}
@@ -64,7 +64,7 @@ export function SocialTracker({
       />
 
       {/* Main Content */}
-      <div className="flex-1 flex flex-col overflow-hidden">
+      <div className="flex-1 flex flex-col overflow-hidden bg-[url('/patron4x.png')] bg-contain">
         {/* Header */}
         <SearchHeader
           username={username}
