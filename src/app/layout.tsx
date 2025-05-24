@@ -42,7 +42,7 @@ export default function RootLayout({
           }}
         />
         <div
-          className="fixed bottom-5 right-10 p-4 text-3xl text-white border-3 hidden md:block
+          className="fixed bottom-5 right-10 p-4 text-3xl text-white border-3 hidden md:block opacity-45
         "
         >
           <p>Daniel Lopez</p>

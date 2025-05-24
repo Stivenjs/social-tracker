@@ -47,7 +47,7 @@ export function SocialTracker({
   };
 
   return (
-    <div className="flex h-screen bg-zinc-950 text-white relative border-3 border-pink-500">
+    <div className="flex h-screen bg-zinc-950 text-white relative border-3 border-[#531b88]">
       {/* Desktop Sidebar */}
       <Sidebar
         subscriptions={subscriptions}

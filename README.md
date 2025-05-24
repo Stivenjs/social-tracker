@@ -81,8 +81,8 @@ Social Tracker es una aplicación web construida con Next.js que permite a los u
 ## ¿Cómo Funciona?
 
 1.  **Búsqueda:** El usuario introduce un nombre de usuario en la barra de búsqueda y presiona "Buscar" o hace clic en una suscripción guardada.
-2.  **Llamada a la API:** La interfaz de usuario realiza una solicitud POST al endpoint `/api/scrape-all` del backend de Next.js, enviando el nombre de usuario.
-3.  **Scraping:** El endpoint de la API utiliza el cliente de Apify (`src/app/lib/scrapers.ts`) para ejecutar actores preconfigurados (scrapers) para cada plataforma social (YouTube, Instagram, TikTok, X).
+2.  **Llamada a la API:** La interfaz de usuario realiza una solicitud POST a tu función AWS Lambda, enviando el nombre de usuario.
+3.  **Scraping:** La función Lambda utiliza el cliente de Apify para ejecutar actores preconfigurados (scrapers) para cada plataforma social (YouTube, Instagram, TikTok, X).
 4.  **Agregación de Resultados:** La API espera a que todos los scrapers finalicen (usando `Promise.allSettled`) y recopila los resultados (o errores) de cada plataforma.
 5.  **Respuesta:** La API devuelve un array de objetos, cada uno representando los resultados (o error) para una plataforma específica.
 6.  **Visualización:** La interfaz recibe los datos y los muestra en tarjetas separadas por plataforma. También actualiza la tarjeta de "Enlaces directos".
@@ -91,12 +91,16 @@ Social Tracker es una aplicación web construida con Next.js que permite a los u
     - La lista de suscripciones se muestra en la barra lateral y en la pantalla de bienvenida.
     - Al hacer clic en una suscripción, se llama a la función `handleSubmit` directamente con ese nombre de usuario, iniciando una nueva búsqueda.
 
-## Endpoint de API
+## Endpoint de API (Función AWS Lambda)
 
-- `POST /api/scrape-all`:
-  - **Body (JSON):** `{ "username": "nombre_a_buscar" }`
-  - **Respuesta Exitosa (JSON):** `[{ platform: "...", items: [...], error: null }, ...]`
-  - **Respuesta de Error (JSON):** `{ "error": "mensaje_de_error" }`
+Tu aplicación ahora interactúa con una función AWS Lambda para realizar el scraping. Deberás desplegar tu función Lambda y configurar la URL del endpoint en tu frontend para que la aplicación funcione correctamente.
+
+- **Método:** `POST`
+- **Endpoint URL:** La URL proporcionada por AWS Gateway API para tu función Lambda.
+- **Body (JSON):** `{ "username": "nombre_a_buscar" }`
+- **Respuesta Exitosa (JSON):** `[{ platform: "...", items: [...], error: null }, ...]`
+- **Respuesta de Error (JSON):** `{ "error": "mensaje_de_error" }`
+
 
 ## Despliegue
 
